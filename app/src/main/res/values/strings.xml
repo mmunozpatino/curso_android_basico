@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Calculadora simple</string>
+    <string name="boton_sumar">Sumar</string>
+    <string name="boton_listo">Listo!</string>
+</resources>
