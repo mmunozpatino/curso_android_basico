@@ -2,19 +2,30 @@ package com.example.calculadorasimple;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
 
     Button loginBtn;
+
+    EditText username, password;
     Integer count = 0;
 
+    CheckBox shouldKeepSession;
+
     Boolean close = false;
+
+    public static String SESSION_KEY = "sesion";
+    public static String KEEP_KEY = "keep";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,28 +33,64 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         loginBtn = findViewById(R.id.login_btn);
+        shouldKeepSession = findViewById(R.id.cb_keep_session);
+
+        username = findViewById(R.id.et_username);
+        password = findViewById(R.id.et_password);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("mechi", "LoginActivity OnClick");
-//                Intent intent = new Intent(getApplicationContext(), CalculadoraActivity.class);
-//                startActivity(intent);
-                close= true;
-                onBackPressed();
+//                Log.i("mechi", "LoginActivity OnClick");
+
+                if (shouldLogin()) {
+                    SharedPreferences preferences = getSharedPreferences(SESSION_KEY, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+
+                    Boolean keep = shouldKeepSession.isChecked();
+
+                    editor.putBoolean(KEEP_KEY, keep);
+                    editor.apply();
+                    Log.i("preferences", "Estoy abriendo la calculadora, keepSession = " + keep);
+                    // Acá navego a la calculadora
+                    goToCalculadora();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Completa los datos", Toast.LENGTH_LONG).show();
+                }
+
+//                close= true;
+//                onBackPressed();
             }
         });
     }
 
+    private Boolean shouldLogin() {
+        String usr = username.getText().toString();
+        String pass = password.getText().toString();
+
+        if (!usr.equals("") && !pass.equals("")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void goToCalculadora() {
+        Intent intent = new Intent(getApplicationContext(), CalculadoraActivity.class);
+        startActivity(intent);
+        // Saco del stack de activities esta, entonces al hacer back no vuelvo nunca a esta act
+        finish();
+    }
+
     @Override
     public void onBackPressed() {
-        Log.i("mechi", "LoginActivity onBackPressed, count: " + count);
-        if (close) {
+//        Log.i("mechi", "LoginActivity onBackPressed, count: " + count);
+//        if (close) {
             super.onBackPressed();
-        } else {
-            Toast.makeText(getApplicationContext(), "apreta en login", Toast.LENGTH_LONG).show();
-//            count ++;
-        }
+//        } else {
+//            Toast.makeText(getApplicationContext(), "apreta en login", Toast.LENGTH_LONG).show();
+////            count ++;
+//        }
     }
 
     @Override
