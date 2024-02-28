@@ -8,9 +8,7 @@
     android:paddingHorizontal="10dp"
     android:background="@color/background"
     tools:context=".LoginActivity">
-
     <include
         layout="@layout/login_layout"
         />
-
 </LinearLayout>

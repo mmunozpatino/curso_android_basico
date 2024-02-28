@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button loginBtn;
+    Button loginBtn, singupBtn;
 
     EditText username, password;
     Integer count = 0;
@@ -32,11 +32,15 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        findViewById(R.id.btn_close).setVisibility(View.GONE);
+
         loginBtn = findViewById(R.id.login_btn);
         shouldKeepSession = findViewById(R.id.cb_keep_session);
 
         username = findViewById(R.id.et_username);
         password = findViewById(R.id.et_password);
+
+        singupBtn = findViewById(R.id.sing_up_btn);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.apply();
                     Log.i("preferences", "Estoy abriendo la calculadora, keepSession = " + keep);
                     // Acá navego a la calculadora
-                    goToCalculadora();
+                    login();
                 } else {
                     Toast.makeText(getApplicationContext(), "Completa los datos", Toast.LENGTH_LONG).show();
                 }
@@ -62,6 +66,32 @@ public class LoginActivity extends AppCompatActivity {
 //                onBackPressed();
             }
         });
+
+        singupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToSingUp();
+            }
+        });
+    }
+
+    private void login() {
+        SharedPreferences preferences = getSharedPreferences(SESSION_KEY, Context.MODE_PRIVATE);
+
+        String realPassword = preferences.getString(username.getText().toString(), "");
+        String currentPassword = password.getText().toString();
+
+        Log.i("user", "Se logea usuario: " + username.getText().toString() + ", contraseña ingresada: " + currentPassword + ", contraseña guardado: " + realPassword);
+        if (!realPassword.isEmpty() && realPassword.equals(currentPassword)) {
+            goToCalculadora();
+        } else {
+            Toast.makeText(getApplicationContext(), "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void goToSingUp() {
+        Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+        startActivity(intent);
     }
 
     private Boolean shouldLogin() {

@@ -1,7 +1,12 @@
 package com.example.calculadorasimple;
 
+import static com.example.calculadorasimple.LoginActivity.KEEP_KEY;
+import static com.example.calculadorasimple.LoginActivity.SESSION_KEY;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,7 +17,7 @@ import android.widget.Toast;
 public class CalculadoraActivity extends AppCompatActivity {
 
     EditText num1, num2;
-    Button boton;
+    Button boton, logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +32,8 @@ public class CalculadoraActivity extends AppCompatActivity {
         num1 = findViewById(R.id.primer_numero);
         num2 = findViewById(R.id.segundo_numero);
 
+        logout = findViewById(R.id.btn_log_out);
+
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -37,6 +44,19 @@ public class CalculadoraActivity extends AppCompatActivity {
                 suma = num1int + num2int;
                 Toast.makeText(getApplicationContext(), "El resultado de la suma es " + suma.toString(), Toast.LENGTH_LONG).show();
                 boton.setText(getResources().getText(R.string.boton_listo));
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences preferences = getSharedPreferences(SESSION_KEY, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+
+                editor.putBoolean(KEEP_KEY, false);
+                editor.apply();
+
+                finish();
             }
         });
 

@@ -3,6 +3,10 @@ package com.example.calculadorasimple;
 import static com.example.calculadorasimple.LoginActivity.KEEP_KEY;
 import static com.example.calculadorasimple.LoginActivity.SESSION_KEY;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -17,6 +21,16 @@ import android.widget.Toast;
 public class LandingActivity extends AppCompatActivity {
 
     ImageView logo;
+
+//    ActivityResultLauncher<Intent> launcher = registerForActivityResult(
+//            new ActivityResultContracts.StartActivityForResult(),
+//            new ActivityResultCallback<ActivityResult>() {
+//                @Override
+//                public void onActivityResult(ActivityResult o) {
+//                    // escucho
+//                }
+//            }
+//    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
