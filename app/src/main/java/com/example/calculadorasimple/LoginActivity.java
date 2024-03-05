@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Log.i("user", "Se logea usuario: " + username.getText().toString() + ", contraseña ingresada: " + currentPassword + ", contraseña guardado: " + realPassword);
         if (!realPassword.isEmpty() && realPassword.equals(currentPassword)) {
-            goToCalculadora();
+            goToHistory();
         } else {
             Toast.makeText(getApplicationContext(), "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
         }
@@ -105,8 +105,8 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void goToCalculadora() {
-        Intent intent = new Intent(getApplicationContext(), CalculadoraActivity.class);
+    private void goToHistory() {
+        Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
         startActivity(intent);
         // Saco del stack de activities esta, entonces al hacer back no vuelvo nunca a esta act
         finish();

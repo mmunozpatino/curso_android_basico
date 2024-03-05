@@ -6,6 +6,7 @@ import static com.example.calculadorasimple.LoginActivity.SESSION_KEY;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,12 @@ public class CalculadoraActivity extends AppCompatActivity {
 
     EditText num1, num2;
     Button boton, logout;
+
+    public static final String KEY_OPERADOR_1 = "operador_1";
+    public static final String KEY_OPERADOR_2 = "operador_2";
+    public static final String KEY_RESULTADO = "resultado";
+
+    public static final int RESULTADO_SUMA_OK = 13;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +51,12 @@ public class CalculadoraActivity extends AppCompatActivity {
                 suma = num1int + num2int;
                 Toast.makeText(getApplicationContext(), "El resultado de la suma es " + suma.toString(), Toast.LENGTH_LONG).show();
                 boton.setText(getResources().getText(R.string.boton_listo));
+                Intent intentCalculo = new Intent();
+                intentCalculo.putExtra(KEY_OPERADOR_1, num1.getText().toString());
+                intentCalculo.putExtra(KEY_OPERADOR_2, num2.getText().toString());
+                intentCalculo.putExtra(KEY_RESULTADO, suma.toString());
+                setResult(RESULTADO_SUMA_OK, intentCalculo);
+                finish();
             }
         });
 

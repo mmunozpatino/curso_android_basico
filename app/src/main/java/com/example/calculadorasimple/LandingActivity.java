@@ -22,16 +22,6 @@ public class LandingActivity extends AppCompatActivity {
 
     ImageView logo;
 
-//    ActivityResultLauncher<Intent> launcher = registerForActivityResult(
-//            new ActivityResultContracts.StartActivityForResult(),
-//            new ActivityResultCallback<ActivityResult>() {
-//                @Override
-//                public void onActivityResult(ActivityResult o) {
-//                    // escucho
-//                }
-//            }
-//    );
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +32,7 @@ public class LandingActivity extends AppCompatActivity {
         logo.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        goToCalculadora();
+                                        goToHistory();
                                     }
                                 });
         login();
@@ -56,15 +46,15 @@ public class LandingActivity extends AppCompatActivity {
 
         if (keep) {
             // Pasar de largo a la pantalla de calculadora
-            goToCalculadora();
+            goToHistory();
         } else {
             // Me voy a quedar en la pantalla de login, no hago nada
             goToLogin();
         }
     }
 
-    private void goToCalculadora() {
-        Intent intent = new Intent(getApplicationContext(), CalculadoraActivity.class);
+    private void goToHistory() {
+        Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
         startActivity(intent);
     }
 
